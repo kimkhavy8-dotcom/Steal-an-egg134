@@ -1,5 +1,5 @@
 -- ====================================================
--- Script Name: Steal An Egg - AIZEN Hub (Auto Farm, Fly & Teleport)
+-- Script Name: Steal An Egg - AIZEN Hub Pro
 -- Language: Khmer UI / English Core
 -- Target: Roblox Executor
 -- ====================================================
@@ -153,7 +153,6 @@ TpTitle.Text = "📍 ቴឡេព័រទៅកាន់ហាងស៊ុត (
 TpTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
 TpTitle.TextSize = 12
 
--- ហាងទី 1 (Shop 1 - Starter / Normal Eggs)
 local TpShop1 = Instance.new("TextButton")
 TpShop1.Parent = MainFrame
 TpShop1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
@@ -165,7 +164,6 @@ TpShop1.TextColor3 = Color3.fromRGB(255, 255, 255)
 TpShop1.TextSize = 12
 local Tp1Corner = Instance.new("UICorner") Tp1Corner.CornerRadius = UDim.new(0, 6) Tp1Corner.Parent = TpShop1
 
--- ហាងទី 2 (Shop 2 - Rare / Epic Eggs)
 local TpShop2 = Instance.new("TextButton")
 TpShop2.Parent = MainFrame
 TpShop2.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
@@ -177,7 +175,6 @@ TpShop2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TpShop2.TextSize = 12
 local Tp2Corner = Instance.new("UICorner") Tp2Corner.CornerRadius = UDim.new(0, 6) Tp2Corner.Parent = TpShop2
 
--- ហាងទី 3 (Shop 3 - Legendary / Mythic Eggs)
 local TpShop3 = Instance.new("TextButton")
 TpShop3.Parent = MainFrame
 TpShop3.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
@@ -189,7 +186,7 @@ TpShop3.TextColor3 = Color3.fromRGB(255, 255, 255)
 TpShop3.TextSize = 12
 local Tp3Corner = Instance.new("UICorner") Tp3Corner.CornerRadius = UDim.new(0, 6) Tp3Corner.Parent = TpShop3
 
--- ប៊ូតុង Minimize / Hide UI (សញ្ញា - ដើម្បីបិទម៉ូត)
+-- Minimize Button
 local MinimizeBtn = Instance.new("TextButton")
 MinimizeBtn.Parent = MainFrame
 MinimizeBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
@@ -204,7 +201,6 @@ local MinCorner = Instance.new("UICorner")
 MinCorner.CornerRadius = UDim.new(0, 6)
 MinCorner.Parent = MinimizeBtn
 
--- Floating Open Button (ពេលលាក់ម៉ឺនុយរួច)
 local OpenBtn = Instance.new("TextButton")
 OpenBtn.Parent = ScreenGui
 OpenBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
@@ -245,9 +241,8 @@ OpenBtn.MouseButton1Click:Connect(function()
 end)
 
 -- ====================================================
--- 5. Feature: Teleport to Shops (មុខងារទូរព័រទៅហាងស៊ុត)
+-- 5. Feature: Teleport to Shops
 -- ====================================================
--- *ចំណាំ៖ អ្នកអាចប្តូរ Vector3.new(x, y, z) ទៅតាមទីតាំងហាងជាក់ស្តែងក្នុងហ្គេមនីមួយៗ
 local function teleportTo(pos)
 	if character and humanoidRootPart then
 		humanoidRootPart.CFrame = CFrame.new(pos)
@@ -255,17 +250,14 @@ local function teleportTo(pos)
 end
 
 TpShop1.MouseButton1Click:Connect(function()
-	-- កូអរដោនេហាងទី 1 (កែប្រែលេខ X, Y, Z តាមការត្រូវការពិតប្រាកដក្នុងហ្គេម)
 	teleportTo(Vector3.new(0, 5, 50)) 
 end)
 
 TpShop2.MouseButton1Click:Connect(function()
-	-- កូអរដោនេហាងទី 2
 	teleportTo(Vector3.new(150, 5, 200)) 
 end)
 
 TpShop3.MouseButton1Click:Connect(function()
-	-- កូអរដោនេហាងទី 3 (Legendary)
 	teleportTo(Vector3.new(300, 5, 500)) 
 end)
 
