@@ -1,7 +1,5 @@
 -- ====================================================
--- Script Name: Steal An Egg - AIZEN Hub Pro
--- Language: Khmer UI / English Core
--- Target: Roblox Executor
+-- Script Name: Steal An Egg - AIZEN Hub Pro (Fixed)
 -- ====================================================
 
 local Players = game:GetService("Players")
@@ -13,14 +11,13 @@ local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
--- ស្ថានភាពប៊ូតុង និងម៉ូដ
 local isUnlocked = false
 local autoStealEnabled = false
 local flyEnabled = false
 local flySpeed = 50
 
 -- ====================================================
--- 1. สร้าง UI Login (Password: AIZEN)
+-- 1. UI Login
 -- ====================================================
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "AizenStealEggGUI"
@@ -83,7 +80,7 @@ LoginBtnCorner.CornerRadius = UDim.new(0, 6)
 LoginBtnCorner.Parent = LoginBtn
 
 -- ====================================================
--- 2. สร้าง Main UI (ເມណូចម្បង)
+-- 2. Main UI
 -- ====================================================
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
@@ -110,22 +107,19 @@ MainTitle.Text = "🥚 Steal an Egg - AIZEN Hub Pro"
 MainTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
 MainTitle.TextSize = 18
 
--- ប៊ូតុង Auto Steal
+-- Auto Steal Button
 local AutoStealBtn = Instance.new("TextButton")
 AutoStealBtn.Parent = MainFrame
 AutoStealBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 AutoStealBtn.Position = UDim2.new(0.1, 0, 0.18, 0)
 AutoStealBtn.Size = UDim2.new(0.8, 0, 0, 40)
 AutoStealBtn.Font = Enum.Font.GothamBold
-AutoStealBtn.Text = "Auto Steal Good Eggs: OFF"
+AutoStealBtn.Text = "Auto Steal Eggs: OFF"
 AutoStealBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoStealBtn.TextSize = 14
+local AsCorner = Instance.new("UICorner") AsCorner.CornerRadius = UDim.new(0, 6) AsCorner.Parent = AutoStealBtn
 
-local AsCorner = Instance.new("UICorner")
-AsCorner.CornerRadius = UDim.new(0, 6)
-AsCorner.Parent = AutoStealBtn
-
--- ប៊ូតុង Fly Mode
+-- Fly Mode Button
 local FlyBtn = Instance.new("TextButton")
 FlyBtn.Parent = MainFrame
 FlyBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
@@ -135,14 +129,9 @@ FlyBtn.Font = Enum.Font.GothamBold
 FlyBtn.Text = "Fly Mode (ហោះហើរ): OFF"
 FlyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 FlyBtn.TextSize = 14
+local FlyCorner = Instance.new("UICorner") FlyCorner.CornerRadius = UDim.new(0, 6) FlyCorner.Parent = FlyBtn
 
-local FlyCorner = Instance.new("UICorner")
-FlyCorner.CornerRadius = UDim.new(0, 6)
-FlyCorner.Parent = FlyBtn
-
--- ====================================================
--- 3. Teleport Dropdown / Buttons (ហាងលក់ស៊ុតផ្សេងៗ)
--- ====================================================
+-- Teleport Buttons
 local TpTitle = Instance.new("TextLabel")
 TpTitle.Parent = MainFrame
 TpTitle.BackgroundTransparency = 1
@@ -196,10 +185,7 @@ MinimizeBtn.Font = Enum.Font.GothamBold
 MinimizeBtn.Text = "[-] លាក់ផ្ទាំងម៉ឺនុយ (Minimize)"
 MinimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 MinimizeBtn.TextSize = 12
-
-local MinCorner = Instance.new("UICorner")
-MinCorner.CornerRadius = UDim.new(0, 6)
-MinCorner.Parent = MinimizeBtn
+local MinCorner = Instance.new("UICorner") MinCorner.CornerRadius = UDim.new(0, 6) MinCorner.Parent = MinimizeBtn
 
 local OpenBtn = Instance.new("TextButton")
 OpenBtn.Parent = ScreenGui
@@ -211,13 +197,10 @@ OpenBtn.Text = "[+] បើកម៉ូត"
 OpenBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 OpenBtn.TextSize = 14
 OpenBtn.Visible = false
-
-local OpenCorner = Instance.new("UICorner")
-OpenCorner.CornerRadius = UDim.new(0, 6)
-OpenCorner.Parent = OpenBtn
+local OpenCorner = Instance.new("UICorner") OpenCorner.CornerRadius = UDim.new(0, 6) OpenCorner.Parent = OpenBtn
 
 -- ====================================================
--- 4. Logic: Password & UI Control
+-- 3. Logic & Features
 -- ====================================================
 LoginBtn.MouseButton1Click:Connect(function()
 	if TextBox.Text == "AIZEN" then
@@ -226,7 +209,7 @@ LoginBtn.MouseButton1Click:Connect(function()
 		MainFrame.Visible = true
 	else
 		TextBox.Text = ""
-		TextBox.PlaceholderText = "❌ ខុស Password! សូមព្យាយាមម្ដងទៀត"
+		TextBox.PlaceholderText = "❌ ខុស Password!"
 	end
 end)
 
@@ -240,58 +223,40 @@ OpenBtn.MouseButton1Click:Connect(function()
 	OpenBtn.Visible = false
 end)
 
--- ====================================================
--- 5. Feature: Teleport to Shops
--- ====================================================
 local function teleportTo(pos)
-	if character and humanoidRootPart then
-		humanoidRootPart.CFrame = CFrame.new(pos)
+	if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		player.Character.HumanoidRootPart.CFrame = CFrame.new(pos)
 	end
 end
 
-TpShop1.MouseButton1Click:Connect(function()
-	teleportTo(Vector3.new(0, 5, 50)) 
-end)
+TpShop1.MouseButton1Click:Connect(function() teleportTo(Vector3.new(0, 5, 50)) end)
+TpShop2.MouseButton1Click:Connect(function() teleportTo(Vector3.new(150, 5, 200)) end)
+TpShop3.MouseButton1Click:Connect(function() teleportTo(Vector3.new(300, 5, 500)) end)
 
-TpShop2.MouseButton1Click:Connect(function()
-	teleportTo(Vector3.new(150, 5, 200)) 
-end)
-
-TpShop3.MouseButton1Click:Connect(function()
-	teleportTo(Vector3.new(300, 5, 500)) 
-end)
-
--- ====================================================
--- 6. Feature: Auto Steal Good Eggs
--- ====================================================
 AutoStealBtn.MouseButton1Click:Connect(function()
 	autoStealEnabled = not autoStealEnabled
 	if autoStealEnabled then
 		AutoStealBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-		AutoStealBtn.Text = "Auto Steal Good Eggs: ON"
+		AutoStealBtn.Text = "Auto Steal Eggs: ON"
 	else
 		AutoStealBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-		AutoStealBtn.Text = "Auto Steal Good Eggs: OFF"
+		AutoStealBtn.Text = "Auto Steal Eggs: OFF"
 	end
 end)
 
+-- កូដ Auto Steal បែបស្វែងរកគ្រប់ Prompt ស៊ុតទាំងអស់ក្នុងហ្គេមដោយស្វ័យប្រវត្តិ
 task.spawn(function()
 	while true do
-		task.wait(0.5)
+		task.wait(0.3)
 		if autoStealEnabled and isUnlocked then
 			pcall(function()
-				for _, obj in pairs(workspace:GetDescendants()) do
-					if obj:IsA("Model") or obj:IsA("Part") then
-						local name = string.lower(obj.Name)
-						if string.find(name, "egg") and (string.find(name, "legendary") or string.find(name, "epic") or string.find(name, "rare") or string.find(name, "gold")) then
-							local targetPart = obj:IsA("Part") and obj or obj:FindFirstChildWhichIsA("BasePart")
-							if targetPart and humanoidRootPart then
-								humanoidRootPart.CFrame = targetPart.CFrame + Vector3.new(0, 3, 0)
-								local prompt = obj:FindFirstChildWhichIsA("ProximityPrompt", true)
-								if prompt then
-									fireproximityprompt(prompt)
-								end
+				for _, v in pairs(workspace:GetDescendants()) do
+					if v:IsA("ProximityPrompt") then
+						if v.Parent and (string.find(string.lower(v.Parent.Name), "egg") or string.find(string.lower(v.ActionText), "steal") or string.find(string.lower(v.ObjectText), "egg")) then
+							if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+								player.Character.HumanoidRootPart.CFrame = v.Parent:IsA("BasePart") and v.Parent.CFrame + Vector3.new(0, 3, 0) or (v.Parent:IsA("Model") and v.Parent:GetPrimaryPartCFrame() + Vector3.new(0, 3, 0) or player.Character.HumanoidRootPart.CFrame)
 							end
+							fireproximityprompt(v)
 						end
 					end
 				end
@@ -300,9 +265,7 @@ task.spawn(function()
 	end
 end)
 
--- ====================================================
--- 7. Feature: Fly Mode
--- ====================================================
+-- Fly Mode Logic
 FlyBtn.MouseButton1Click:Connect(function()
 	flyEnabled = not flyEnabled
 	if flyEnabled then
@@ -316,39 +279,33 @@ end)
 
 local bg, bv
 RunService.RenderStepped:Connect(function()
-	if flyEnabled and isUnlocked and character and humanoidRootPart then
+	local char = player.Character
+	local hrp = char and char:FindFirstChild("HumanoidRootPart")
+	if flyEnabled and isUnlocked and char and hrp then
 		if not bg then
 			bg = Instance.new("BodyGyro")
 			bg.P = 9e4
 			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-			bg.Parent = humanoidRootPart
+			bg.Parent = hrp
 		end
 		if not bv then
 			bv = Instance.new("BodyVelocity")
 			bv.velocity = Vector3.new(0, 0, 0)
 			bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
-			bv.Parent = humanoidRootPart
+			bv.Parent = hrp
 		end
 		
 		bg.cframe = workspace.CurrentCamera.CoordinateFrame
 		local camera = workspace.CurrentCamera
 		local moveDir = Vector3.new(0,0,0)
 		
-		if UserInputService:IsKeyDown(Enum.KeyCode.W) then
-			moveDir = moveDir + (camera.CoordinateFrame.LookVector)
-		end
-		if UserInputService:IsKeyDown(Enum.KeyCode.S) then
-			moveDir = moveDir - (camera.CoordinateFrame.LookVector)
-		end
-		if UserInputService:IsKeyDown(Enum.KeyCode.A) then
-			moveDir = moveDir - (camera.CoordinateFrame.RightVector)
-		end
-		if UserInputService:IsKeyDown(Enum.KeyCode.D) then
-			moveDir = moveDir + (camera.CoordinateFrame.RightVector)
-		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.W) then moveDir = moveDir + (camera.CoordinateFrame.LookVector) end
+		if UserInputService:IsKeyDown(Enum.KeyCode.S) then moveDir = moveDir - (camera.CoordinateFrame.LookVector) end
+		if UserInputService:IsKeyDown(Enum.KeyCode.A) then moveDir = moveDir - (camera.CoordinateFrame.RightVector) end
+		if UserInputService:IsKeyDown(Enum.KeyCode.D) then moveDir = moveDir + (camera.CoordinateFrame.RightVector) end
 		
 		bv.velocity = moveDir * flySpeed
-		humanoidRootPart.Velocity = Vector3.new(0,0,0)
+		hrp.Velocity = Vector3.new(0,0,0)
 	else
 		if bg then bg:Destroy() bg = nil end
 		if bv then bv:Destroy() bv = nil end
