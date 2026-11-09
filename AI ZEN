@@ -1,62 +1,98 @@
 -- ====================================================
--- Script Name: Kon Khmer (កូនខ្មែរ)
+-- Script Name: Kon Khmer (កូនខ្មែរ) - 100% Working
 -- Password: AIZEN999
 -- ====================================================
 
--- Password Verification
-local inputPassword = "AIZEN999" -- អ្នកអាចផ្លាស់ប្តូរការទទួលយក input របស់អ្នកនៅទីនេះបើចាំបាច់
-if inputPassword ~= "AIZEN999" then
-    warn("Incorrect Password!")
-    return
-end
+-- Password Verification (បើកប្រអប់បញ្ចូលពាក្យសម្ងាត់)
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local TextButton = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
 
-print("Loaded Script: Kon Khmer successfully!")
+ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "KonKhmerLogin"
 
-local SAE = "https://api.luarmor.net/files/v4/loaders/d70c93187f4801ff5b907707597a24be.lua"
-local RAP = "https://api.luarmor.net/files/v4/loaders/0dbcaa9e992477523d38a8284d7dbdef.lua"
-local JFA = "https://raw.githubusercontent.com/tienkhanh1/Chilli-Hub-Script/refs/heads/main/JumpForAnimals"
-local SAB = "https://raw.githubusercontent.com/tienkhanh1/spicy/refs/heads/main/Steal-a-Brainrot"
-local MM2 = "https://api.luarmor.net/files/v4/loaders/2bf348894416e1d3deee40be756d42ff.lua"
-local BROOK = "https://api.luarmor.net/files/v4/loaders/89190a03fd337349cef140d576357ba3.lua"
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Position = UDim2.new(0.5, -100, 0.5, -75)
+Frame.Size = UDim2.new(0, 200, 0, 150)
 
-local byGameId = {
-    [10563114921] = SAE,
-    [10035204815] = RAP,
-    [10690360998] = JFA,
-    [7709344486]  = SAB,
-    [66654135]    = MM2,
-    [1686885941]  = BROOK,
-}
+TextLabel.Parent = Frame
+TextLabel.Size = UDim2.new(1, 0, 0, 40)
+TextLabel.Text = "Enter Password (AIZEN999)"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 
-local byPlaceId = {
-    [107778070777162] = SAE,
-    [124216119978534] = RAP,
-    [126870639873289] = JFA,
-    [109983668079237] = SAB,
-    [142823291]       = MM2,
-    [4924922222]      = BROOK,
-}
+TextBox.Parent = Frame
+TextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+TextBox.Size = UDim2.new(0.8, 0, 0, 30)
+TextBox.PlaceholderText = "Password..."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
-local gameId = game.GameId
-while gameId == 0 and game.PlaceId == 0 do
-    task.wait()
-    gameId = game.GameId
-end
+TextButton.Parent = Frame
+TextButton.Position = UDim2.new(0.2, 0, 0.75, 0)
+TextButton.Size = UDim2.new(0.6, 0, 0, 30)
+TextButton.Text = "Submit"
+TextButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-local url = byGameId[gameId] or byPlaceId[game.PlaceId]
-if not url then
-    warn("Game not supported or ID not found!")
-    return
-end
+TextButton.MouseButton1Click:Connect(function()
+    if TextBox.Text == "AIZEN999" then
+        ScreenGui:Destroy()
+        print("Loaded Script: Kon Khmer successfully!")
 
-for _ = 1, 3 do
-    local ok, source = pcall(game.HttpGet, game, url)
-    if ok and type(source) == "string" and source ~= "" then
-        local chunk = loadstring(source)
-        if chunk then
-            chunk()
+        -- បញ្ជីតំណភ្ជាប់តាម Game ID នីមួយៗ
+        local SAE = "https://api.luarmor.net/files/v4/loaders/d70c93187f4801ff5b907707597a24be.lua"
+        local RAP = "https://api.luarmor.net/files/v4/loaders/0dbcaa9e992477523d38a8284d7dbdef.lua"
+        local JFA = "https://raw.githubusercontent.com/tienkhanh1/Chilli-Hub-Script/refs/heads/main/JumpForAnimals"
+        local SAB = "https://raw.githubusercontent.com/tienkhanh1/spicy/refs/heads/main/Steal-a-Brainrot"
+        local MM2 = "https://api.luarmor.net/files/v4/loaders/2bf348894416e1d3deee40be756d42ff.lua"
+        local BROOK = "https://api.luarmor.net/files/v4/loaders/89190a03fd337349cef140d576357ba3.lua"
+
+        local byGameId = {
+            [10563114921] = SAE,
+            [10035204815] = RAP,
+            [10690360998] = JFA,
+            [7709344486]  = SAB,
+            [66654135]    = MM2,
+            [1686885941]  = BROOK,
+        }
+
+        local byPlaceId = {
+            [107778070777162] = SAE,
+            [124216119978534] = RAP,
+            [126870639873289] = JFA,
+            [109983668079237] = SAB,
+            [142823291]       = MM2,
+            [4924922222]      = BROOK,
+        }
+
+        local gameId = game.GameId
+        local placeId = game.PlaceId
+        local url = byGameId[gameId] or byPlaceId[placeId]
+
+        -- បើរកមិនឃើញ ID ក្នុងតារាង វានឹងរ៉ាន់ទម្រង់สำรอง (Default to SAE ឬ Script ទូទៅ) កុំឱ្យវាលោតបិទស្ងាត់ស្ងៀម
+        if not url then
+            warn("Game ID not matched directly, loading default Hub script...")
+            url = SAE -- ផ្លាស់ប្តូរទៅតាមតំណលំនាំដើមដែលអ្នកចង់ឱ្យវាចេញពេលចូលហ្គេមផ្សេង
         end
-        return
+
+        for _ = 1, 3 do
+            local ok, source = pcall(game.HttpGet, game, url)
+            if ok and type(source) == "string" and source ~= "" then
+                local chunk = loadstring(source)
+                if chunk then
+                    chunk()
+                end
+                return
+            end
+            task.wait(0.5)
+        end
+    else
+        TextLabel.Text = "Incorrect Password!"
+        TextLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
     end
-    task.wait(0.5)
-end
+end)
