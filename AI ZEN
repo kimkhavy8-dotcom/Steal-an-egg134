@@ -1,98 +1,364 @@
 -- ====================================================
--- Script Name: Kon Khmer (កូនខ្មែរ) - 100% Working
--- Password: AIZEN999
+-- Script Name: Steal An Egg - AIZEN Hub (Auto Farm, Fly & Teleport)
+-- Language: Khmer UI / English Core
+-- Target: Roblox Executor
 -- ====================================================
 
--- Password Verification (បើកប្រអប់បញ្ចូលពាក្យសម្ងាត់)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- ស្ថានភាពប៊ូតុង និងម៉ូដ
+local isUnlocked = false
+local autoStealEnabled = false
+local flyEnabled = false
+local flySpeed = 50
+
+-- ====================================================
+-- 1. สร้าง UI Login (Password: AIZEN)
+-- ====================================================
 local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
+ScreenGui.Name = "AizenStealEggGUI"
+ScreenGui.Parent = CoreGui
+ScreenGui.ResetOnSpawn = false
+
+local LoginFrame = Instance.new("Frame")
+LoginFrame.Name = "LoginFrame"
+LoginFrame.Parent = ScreenGui
+LoginFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+LoginFrame.BorderSizePixel = 0
+LoginFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+LoginFrame.Size = UDim2.new(0, 300, 0, 180)
+LoginFrame.Active = true
+LoginFrame.Draggable = true
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = LoginFrame
+
+local Title = Instance.new("TextLabel")
+Title.Parent = LoginFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0, 15)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "🔐 បញ្ចូលពាក្យសម្ងាត់ (AIZEN)"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 16
+
 local TextBox = Instance.new("TextBox")
-local TextButton = Instance.new("TextButton")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "KonKhmerLogin"
-
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Position = UDim2.new(0.5, -100, 0.5, -75)
-Frame.Size = UDim2.new(0, 200, 0, 150)
-
-TextLabel.Parent = Frame
-TextLabel.Size = UDim2.new(1, 0, 0, 40)
-TextLabel.Text = "Enter Password (AIZEN999)"
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-
-TextBox.Parent = Frame
+TextBox.Parent = LoginFrame
+TextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextBox.BorderSizePixel = 0
 TextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
-TextBox.Size = UDim2.new(0.8, 0, 0, 30)
-TextBox.PlaceholderText = "Password..."
+TextBox.Size = UDim2.new(0.8, 0, 0, 40)
+TextBox.Font = Enum.Font.Gotham
+TextBox.PlaceholderText = "បញ្ចូល Password..."
 TextBox.Text = ""
-TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14
 
-TextButton.Parent = Frame
-TextButton.Position = UDim2.new(0.2, 0, 0.75, 0)
-TextButton.Size = UDim2.new(0.6, 0, 0, 30)
-TextButton.Text = "Submit"
-TextButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+local TextBoxCorner = Instance.new("UICorner")
+TextBoxCorner.CornerRadius = UDim.new(0, 6)
+TextBoxCorner.Parent = TextBox
 
-TextButton.MouseButton1Click:Connect(function()
-    if TextBox.Text == "AIZEN999" then
-        ScreenGui:Destroy()
-        print("Loaded Script: Kon Khmer successfully!")
+local LoginBtn = Instance.new("TextButton")
+LoginBtn.Parent = LoginFrame
+LoginBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+LoginBtn.BorderSizePixel = 0
+LoginBtn.Position = UDim2.new(0.1, 0, 0.7, 0)
+LoginBtn.Size = UDim2.new(0.8, 0, 0, 40)
+LoginBtn.Font = Enum.Font.GothamBold
+LoginBtn.Text = "ចូលប្រើប្រាស់ (Login)"
+LoginBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoginBtn.TextSize = 14
 
-        -- បញ្ជីតំណភ្ជាប់តាម Game ID នីមួយៗ
-        local SAE = "https://api.luarmor.net/files/v4/loaders/d70c93187f4801ff5b907707597a24be.lua"
-        local RAP = "https://api.luarmor.net/files/v4/loaders/0dbcaa9e992477523d38a8284d7dbdef.lua"
-        local JFA = "https://raw.githubusercontent.com/tienkhanh1/Chilli-Hub-Script/refs/heads/main/JumpForAnimals"
-        local SAB = "https://raw.githubusercontent.com/tienkhanh1/spicy/refs/heads/main/Steal-a-Brainrot"
-        local MM2 = "https://api.luarmor.net/files/v4/loaders/2bf348894416e1d3deee40be756d42ff.lua"
-        local BROOK = "https://api.luarmor.net/files/v4/loaders/89190a03fd337349cef140d576357ba3.lua"
+local LoginBtnCorner = Instance.new("UICorner")
+LoginBtnCorner.CornerRadius = UDim.new(0, 6)
+LoginBtnCorner.Parent = LoginBtn
 
-        local byGameId = {
-            [10563114921] = SAE,
-            [10035204815] = RAP,
-            [10690360998] = JFA,
-            [7709344486]  = SAB,
-            [66654135]    = MM2,
-            [1686885941]  = BROOK,
-        }
+-- ====================================================
+-- 2. สร้าง Main UI (ເມណូចម្បង)
+-- ====================================================
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.BorderSizePixel = 0
+MainFrame.Position = UDim2.new(0.5, -175, 0.5, -160)
+MainFrame.Size = UDim2.new(0, 350, 0, 320)
+MainFrame.Visible = false
+MainFrame.Active = true
+MainFrame.Draggable = true
 
-        local byPlaceId = {
-            [107778070777162] = SAE,
-            [124216119978534] = RAP,
-            [126870639873289] = JFA,
-            [109983668079237] = SAB,
-            [142823291]       = MM2,
-            [4924922222]      = BROOK,
-        }
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
 
-        local gameId = game.GameId
-        local placeId = game.PlaceId
-        local url = byGameId[gameId] or byPlaceId[placeId]
+local MainTitle = Instance.new("TextLabel")
+MainTitle.Parent = MainFrame
+MainTitle.BackgroundTransparency = 1
+MainTitle.Position = UDim2.new(0, 0, 0, 10)
+MainTitle.Size = UDim2.new(1, 0, 0, 30)
+MainTitle.Font = Enum.Font.GothamBold
+MainTitle.Text = "🥚 Steal an Egg - AIZEN Hub Pro"
+MainTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
+MainTitle.TextSize = 18
 
-        -- បើរកមិនឃើញ ID ក្នុងតារាង វានឹងរ៉ាន់ទម្រង់สำรอง (Default to SAE ឬ Script ទូទៅ) កុំឱ្យវាលោតបិទស្ងាត់ស្ងៀម
-        if not url then
-            warn("Game ID not matched directly, loading default Hub script...")
-            url = SAE -- ផ្លាស់ប្តូរទៅតាមតំណលំនាំដើមដែលអ្នកចង់ឱ្យវាចេញពេលចូលហ្គេមផ្សេង
-        end
+-- ប៊ូតុង Auto Steal
+local AutoStealBtn = Instance.new("TextButton")
+AutoStealBtn.Parent = MainFrame
+AutoStealBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+AutoStealBtn.Position = UDim2.new(0.1, 0, 0.18, 0)
+AutoStealBtn.Size = UDim2.new(0.8, 0, 0, 40)
+AutoStealBtn.Font = Enum.Font.GothamBold
+AutoStealBtn.Text = "Auto Steal Good Eggs: OFF"
+AutoStealBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoStealBtn.TextSize = 14
 
-        for _ = 1, 3 do
-            local ok, source = pcall(game.HttpGet, game, url)
-            if ok and type(source) == "string" and source ~= "" then
-                local chunk = loadstring(source)
-                if chunk then
-                    chunk()
-                end
-                return
-            end
-            task.wait(0.5)
-        end
-    else
-        TextLabel.Text = "Incorrect Password!"
-        TextLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-    end
+local AsCorner = Instance.new("UICorner")
+AsCorner.CornerRadius = UDim.new(0, 6)
+AsCorner.Parent = AutoStealBtn
+
+-- ប៊ូតុង Fly Mode
+local FlyBtn = Instance.new("TextButton")
+FlyBtn.Parent = MainFrame
+FlyBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+FlyBtn.Position = UDim2.new(0.1, 0, 0.35, 0)
+FlyBtn.Size = UDim2.new(0.8, 0, 0, 40)
+FlyBtn.Font = Enum.Font.GothamBold
+FlyBtn.Text = "Fly Mode (ហោះហើរ): OFF"
+FlyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlyBtn.TextSize = 14
+
+local FlyCorner = Instance.new("UICorner")
+FlyCorner.CornerRadius = UDim.new(0, 6)
+FlyCorner.Parent = FlyBtn
+
+-- ====================================================
+-- 3. Teleport Dropdown / Buttons (ហាងលក់ស៊ុតផ្សេងៗ)
+-- ====================================================
+local TpTitle = Instance.new("TextLabel")
+TpTitle.Parent = MainFrame
+TpTitle.BackgroundTransparency = 1
+TpTitle.Position = UDim2.new(0.1, 0, 0.52, 0)
+TpTitle.Size = UDim2.new(0.8, 0, 0, 20)
+TpTitle.Font = Enum.Font.GothamBold
+TpTitle.Text = "📍 ቴឡេព័រទៅកាន់ហាងស៊ុត (Teleport Shops):"
+TpTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+TpTitle.TextSize = 12
+
+-- ហាងទី 1 (Shop 1 - Starter / Normal Eggs)
+local TpShop1 = Instance.new("TextButton")
+TpShop1.Parent = MainFrame
+TpShop1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+TpShop1.Position = UDim2.new(0.1, 0, 0.61, 0)
+TpShop1.Size = UDim2.new(0.38, 0, 0, 35)
+TpShop1.Font = Enum.Font.GothamBold
+TpShop1.Text = "ហាងទី ១ (Shop 1)"
+TpShop1.TextColor3 = Color3.fromRGB(255, 255, 255)
+TpShop1.TextSize = 12
+local Tp1Corner = Instance.new("UICorner") Tp1Corner.CornerRadius = UDim.new(0, 6) Tp1Corner.Parent = TpShop1
+
+-- ហាងទី 2 (Shop 2 - Rare / Epic Eggs)
+local TpShop2 = Instance.new("TextButton")
+TpShop2.Parent = MainFrame
+TpShop2.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+TpShop2.Position = UDim2.new(0.52, 0, 0.61, 0)
+TpShop2.Size = UDim2.new(0.38, 0, 0, 35)
+TpShop2.Font = Enum.Font.GothamBold
+TpShop2.Text = "ហាងទី ២ (Shop 2)"
+TpShop2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TpShop2.TextSize = 12
+local Tp2Corner = Instance.new("UICorner") Tp2Corner.CornerRadius = UDim.new(0, 6) Tp2Corner.Parent = TpShop2
+
+-- ហាងទី 3 (Shop 3 - Legendary / Mythic Eggs)
+local TpShop3 = Instance.new("TextButton")
+TpShop3.Parent = MainFrame
+TpShop3.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
+TpShop3.Position = UDim2.new(0.1, 0, 0.74, 0)
+TpShop3.Size = UDim2.new(0.8, 0, 0, 35)
+TpShop3.Font = Enum.Font.GothamBold
+TpShop3.Text = "ហាងពិសេស / Legendary (Shop 3)"
+TpShop3.TextColor3 = Color3.fromRGB(255, 255, 255)
+TpShop3.TextSize = 12
+local Tp3Corner = Instance.new("UICorner") Tp3Corner.CornerRadius = UDim.new(0, 6) Tp3Corner.Parent = TpShop3
+
+-- ប៊ូតុង Minimize / Hide UI (សញ្ញា - ដើម្បីបិទម៉ូត)
+local MinimizeBtn = Instance.new("TextButton")
+MinimizeBtn.Parent = MainFrame
+MinimizeBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+MinimizeBtn.Position = UDim2.new(0.1, 0, 0.88, 0)
+MinimizeBtn.Size = UDim2.new(0.8, 0, 0, 30)
+MinimizeBtn.Font = Enum.Font.GothamBold
+MinimizeBtn.Text = "[-] លាក់ផ្ទាំងម៉ឺនុយ (Minimize)"
+MinimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeBtn.TextSize = 12
+
+local MinCorner = Instance.new("UICorner")
+MinCorner.CornerRadius = UDim.new(0, 6)
+MinCorner.Parent = MinimizeBtn
+
+-- Floating Open Button (ពេលលាក់ម៉ឺនុយរួច)
+local OpenBtn = Instance.new("TextButton")
+OpenBtn.Parent = ScreenGui
+OpenBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+OpenBtn.Position = UDim2.new(0.02, 0, 0.1, 0)
+OpenBtn.Size = UDim2.new(0, 100, 0, 40)
+OpenBtn.Font = Enum.Font.GothamBold
+OpenBtn.Text = "[+] បើកម៉ូត"
+OpenBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+OpenBtn.TextSize = 14
+OpenBtn.Visible = false
+
+local OpenCorner = Instance.new("UICorner")
+OpenCorner.CornerRadius = UDim.new(0, 6)
+OpenCorner.Parent = OpenBtn
+
+-- ====================================================
+-- 4. Logic: Password & UI Control
+-- ====================================================
+LoginBtn.MouseButton1Click:Connect(function()
+	if TextBox.Text == "AIZEN" then
+		isUnlocked = true
+		LoginFrame.Visible = false
+		MainFrame.Visible = true
+	else
+		TextBox.Text = ""
+		TextBox.PlaceholderText = "❌ ខុស Password! សូមព្យាយាមម្ដងទៀត"
+	end
+end)
+
+MinimizeBtn.MouseButton1Click:Connect(function()
+	MainFrame.Visible = false
+	OpenBtn.Visible = true
+end)
+
+OpenBtn.MouseButton1Click:Connect(function()
+	MainFrame.Visible = true
+	OpenBtn.Visible = false
+end)
+
+-- ====================================================
+-- 5. Feature: Teleport to Shops (មុខងារទូរព័រទៅហាងស៊ុត)
+-- ====================================================
+-- *ចំណាំ៖ អ្នកអាចប្តូរ Vector3.new(x, y, z) ទៅតាមទីតាំងហាងជាក់ស្តែងក្នុងហ្គេមនីមួយៗ
+local function teleportTo(pos)
+	if character and humanoidRootPart then
+		humanoidRootPart.CFrame = CFrame.new(pos)
+	end
+end
+
+TpShop1.MouseButton1Click:Connect(function()
+	-- កូអរដោនេហាងទី 1 (កែប្រែលេខ X, Y, Z តាមការត្រូវការពិតប្រាកដក្នុងហ្គេម)
+	teleportTo(Vector3.new(0, 5, 50)) 
+end)
+
+TpShop2.MouseButton1Click:Connect(function()
+	-- កូអរដោនេហាងទី 2
+	teleportTo(Vector3.new(150, 5, 200)) 
+end)
+
+TpShop3.MouseButton1Click:Connect(function()
+	-- កូអរដោនេហាងទី 3 (Legendary)
+	teleportTo(Vector3.new(300, 5, 500)) 
+end)
+
+-- ====================================================
+-- 6. Feature: Auto Steal Good Eggs
+-- ====================================================
+AutoStealBtn.MouseButton1Click:Connect(function()
+	autoStealEnabled = not autoStealEnabled
+	if autoStealEnabled then
+		AutoStealBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+		AutoStealBtn.Text = "Auto Steal Good Eggs: ON"
+	else
+		AutoStealBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+		AutoStealBtn.Text = "Auto Steal Good Eggs: OFF"
+	end
+end)
+
+task.spawn(function()
+	while true do
+		task.wait(0.5)
+		if autoStealEnabled and isUnlocked then
+			pcall(function()
+				for _, obj in pairs(workspace:GetDescendants()) do
+					if obj:IsA("Model") or obj:IsA("Part") then
+						local name = string.lower(obj.Name)
+						if string.find(name, "egg") and (string.find(name, "legendary") or string.find(name, "epic") or string.find(name, "rare") or string.find(name, "gold")) then
+							local targetPart = obj:IsA("Part") and obj or obj:FindFirstChildWhichIsA("BasePart")
+							if targetPart and humanoidRootPart then
+								humanoidRootPart.CFrame = targetPart.CFrame + Vector3.new(0, 3, 0)
+								local prompt = obj:FindFirstChildWhichIsA("ProximityPrompt", true)
+								if prompt then
+									fireproximityprompt(prompt)
+								end
+							end
+						end
+					end
+				end
+			end)
+		end
+	end
+end)
+
+-- ====================================================
+-- 7. Feature: Fly Mode
+-- ====================================================
+FlyBtn.MouseButton1Click:Connect(function()
+	flyEnabled = not flyEnabled
+	if flyEnabled then
+		FlyBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+		FlyBtn.Text = "Fly Mode (ហោះហើរ): ON"
+	else
+		FlyBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+		FlyBtn.Text = "Fly Mode (ហោះហើរ): OFF"
+	end
+end)
+
+local bg, bv
+RunService.RenderStepped:Connect(function()
+	if flyEnabled and isUnlocked and character and humanoidRootPart then
+		if not bg then
+			bg = Instance.new("BodyGyro")
+			bg.P = 9e4
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+			bg.Parent = humanoidRootPart
+		end
+		if not bv then
+			bv = Instance.new("BodyVelocity")
+			bv.velocity = Vector3.new(0, 0, 0)
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+			bv.Parent = humanoidRootPart
+		end
+		
+		bg.cframe = workspace.CurrentCamera.CoordinateFrame
+		local camera = workspace.CurrentCamera
+		local moveDir = Vector3.new(0,0,0)
+		
+		if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+			moveDir = moveDir + (camera.CoordinateFrame.LookVector)
+		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+			moveDir = moveDir - (camera.CoordinateFrame.LookVector)
+		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+			moveDir = moveDir - (camera.CoordinateFrame.RightVector)
+		end
+		if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+			moveDir = moveDir + (camera.CoordinateFrame.RightVector)
+		end
+		
+		bv.velocity = moveDir * flySpeed
+		humanoidRootPart.Velocity = Vector3.new(0,0,0)
+	else
+		if bg then bg:Destroy() bg = nil end
+		if bv then bv:Destroy() bv = nil end
+	end
 end)
