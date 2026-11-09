@@ -1,46 +1,65 @@
 -- ====================================================
--- Script Loader Hub - Khmer UI & Password (AIZEN)
+-- Script Loader Hub - AIZEN GAMING Theme & Password
 -- ====================================================
 
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
--- 1. สร้าง UI Login (Password: AIZEN)
+-- 1. สร้าง UI Login (Theme: AIZEN Gaming / Steel Blue & Silver)
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "AizenLoaderGUI"
+ScreenGui.Name = "AizenGamingLoaderGUI"
 ScreenGui.Parent = CoreGui
 ScreenGui.ResetOnSpawn = false
 
 local LoginFrame = Instance.new("Frame")
 LoginFrame.Name = "LoginFrame"
 LoginFrame.Parent = ScreenGui
-LoginFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+LoginFrame.BackgroundColor3 = Color3.fromRGB(20, 25, 35) -- ពណ៌ប្រផេះខៀវងងឹត (Dark Steel Blue)
 LoginFrame.BorderSizePixel = 0
-LoginFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
-LoginFrame.Size = UDim2.new(0, 300, 0, 180)
+LoginFrame.Position = UDim2.new(0.5, -160, 0.5, -130)
+LoginFrame.Size = UDim2.new(0, 320, 0, 260)
 LoginFrame.Active = true
 LoginFrame.Draggable = true
 
 local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.CornerRadius = UDim.new(0, 12)
 UICorner.Parent = LoginFrame
+
+-- UI Stroke (ស៊ុមពណ៌ខៀវប្រាក់ Metallic)
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = LoginFrame
+UIStroke.Color = Color3.fromRGB(100, 180, 220)
+UIStroke.Thickness = 2
+
+-- Logo Image (រូបតំណាង AI ZEN GAMING)
+local LogoImg = Instance.new("ImageLabel")
+LogoImg.Parent = LoginFrame
+LogoImg.BackgroundTransparency = 1
+LogoImg.Position = UDim2.new(0.5, -35, 0, 15)
+LogoImg.Size = UDim2.new(0, 70, 0, 70)
+-- ប្រើ Asset ID រូបភាពរបស់អ្នក ឬ Link ផ្ទាល់
+LogoImg.Image = "rbxassetid://0" -- អ្នកអាចប្តូរជា ID រូបភាព Logo របស់អ្នកបាន եթេ Upload ចូល Roblox
+-- បើកមេកានិចជារង្វង់
+local LogoCorner = Instance.new("UICorner")
+LogoCorner.CornerRadius = UDim.new(1, 0)
+LogoCorner.Parent = LogoImg
 
 local Title = Instance.new("TextLabel")
 Title.Parent = LoginFrame
 Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0, 0, 0, 15)
+Title.Position = UDim2.new(0, 0, 0, 90)
 Title.Size = UDim2.new(1, 0, 0, 30)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "🔐 បញ្ចូលពាក្យសម្ងាត់ (AIZEN)"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 16
+Title.Text = "⚡ AI ZEN GAMING ⚡"
+Title.TextColor3 = Color3.fromRGB(150, 220, 255) -- ពណ៌ខៀវភ្លឺស្ទីលឡូហ្គោ
+Title.TextSize = 18
 
 local TextBox = Instance.new("TextBox")
 TextBox.Parent = LoginFrame
-TextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextBox.BackgroundColor3 = Color3.fromRGB(35, 45, 60)
 TextBox.BorderSizePixel = 0
-TextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+TextBox.Position = UDim2.new(0.1, 0, 0.48, 0)
 TextBox.Size = UDim2.new(0.8, 0, 0, 40)
 TextBox.Font = Enum.Font.Gotham
 TextBox.PlaceholderText = "បញ្ចូល Password..."
@@ -49,22 +68,22 @@ TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextBox.TextSize = 14
 
 local TextBoxCorner = Instance.new("UICorner")
-TextBoxCorner.CornerRadius = UDim.new(0, 6)
+TextBoxCorner.CornerRadius = UDim.new(0, 8)
 TextBoxCorner.Parent = TextBox
 
 local LoginBtn = Instance.new("TextButton")
 LoginBtn.Parent = LoginFrame
-LoginBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+LoginBtn.BackgroundColor3 = Color3.fromRGB(40, 130, 200) -- ពណ៌ខៀវដែក (Steel Blue)
 LoginBtn.BorderSizePixel = 0
-LoginBtn.Position = UDim2.new(0.1, 0, 0.7, 0)
-LoginBtn.Size = UDim2.new(0.8, 0, 0, 40)
+LoginBtn.Position = UDim2.new(0.1, 0, 0.73, 0)
+LoginBtn.Size = UDim2.new(0.8, 0, 0, 45)
 LoginBtn.Font = Enum.Font.GothamBold
 LoginBtn.Text = "ចូលប្រើប្រាស់ (Login)"
 LoginBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-LoginBtn.TextSize = 14
+LoginBtn.TextSize = 15
 
 local LoginBtnCorner = Instance.new("UICorner")
-LoginBtnCorner.CornerRadius = UDim.new(0, 6)
+LoginBtnCorner.CornerRadius = UDim.new(0, 8)
 LoginBtnCorner.Parent = LoginBtn
 
 -- 2. ฟังก์ชันรัน Script หลัก (หลังใส่รหัสถูก)
