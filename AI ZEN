@@ -1,122 +1,252 @@
--- Steal an Egg - Fixed & Optimized Script (Khmer)
+-- AIZEN Hub - Steal an Egg (Khmer & Modern Design with Login)
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
 
 -- លុប UI ចាស់ចោលបើមាន
-if CoreGui:FindFirstChild("ModernStealAnEggGUI") then
-    CoreGui.ModernStealAnEggGUI:Destroy()
+if CoreGui:FindFirstChild("AizenScriptHub") then
+    CoreGui.AizenScriptHub:Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "ModernStealAnEggGUI"
+ScreenGui.Name = "AizenScriptHub"
 ScreenGui.Parent = CoreGui
 
+-- ==================== 1. LOGIN SYSTEM UI ====================
+local LoginFrame = Instance.new("Frame")
+LoginFrame.Size = UDim2.new(0, 320, 0, 200)
+LoginFrame.Position = UDim2.new(0.5, -160, 0.5, -100)
+LoginFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+LoginFrame.BorderSizePixel = 0
+LoginFrame.Active = true
+LoginFrame.Draggable = true
+LoginFrame.Parent = ScreenGui
+
+local LoginCorner = Instance.new("UICorner")
+LoginCorner.CornerRadius = UDim.new(0, 12)
+LoginCorner.Parent = LoginFrame
+
+local LoginTitle = Instance.new("TextLabel")
+LoginTitle.Size = UDim2.new(1, 0, 0, 45)
+LoginTitle.BackgroundTransparency = 1
+LoginTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoginTitle.TextSize = 16
+LoginTitle.Font = Enum.Font.GothamBold
+LoginTitle.Text = "🔐 AIZEN LOGIN SYSTEM"
+LoginTitle.Parent = LoginFrame
+
+-- Username Box
+local UserBox = Instance.new("TextBox")
+UserBox.Size = UDim2.new(0.85, 0, 0, 35)
+UserBox.Position = UDim2.new(0.075, 0, 0, 55)
+UserBox.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+UserBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+UserBox.PlaceholderText = "Username (AIZEN)"
+UserBox.Text = "AIZEN"
+UserBox.TextSize = 13
+UserBox.Font = Enum.Font.Gotham
+UserBox.Parent = LoginFrame
+
+local UserCorner = Instance.new("UICorner")
+UserCorner.CornerRadius = UDim.new(0, 6)
+UserCorner.Parent = UserBox
+
+-- Password Box
+local PassBox = Instance.new("TextBox")
+PassBox.Size = UDim2.new(0.85, 0, 0, 35)
+PassBox.Position = UDim2.new(0.075, 0, 0, 100)
+PassBox.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+PassBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+PassBox.PlaceholderText = "Password"
+PassBox.Text = "12345"
+PassBox.TextSize = 13
+PassBox.Font = Enum.Font.Gotham
+PassBox.Parent = LoginFrame
+
+local PassCorner = Instance.new("UICorner")
+PassCorner.CornerRadius = UDim.new(0, 6)
+PassCorner.Parent = PassBox
+
+-- Login Button
+local LoginBtn = Instance.new("TextButton")
+LoginBtn.Size = UDim2.new(0.85, 0, 0, 38)
+LoginBtn.Position = UDim2.new(0.075, 0, 0, 145)
+LoginBtn.BackgroundColor3 = Color3.fromRGB(0, 122, 255)
+LoginBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+LoginBtn.TextSize = 14
+LoginBtn.Font = Enum.Font.GothamBold
+LoginBtn.Text = "LOGIN"
+LoginBtn.Parent = LoginFrame
+
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 6)
+BtnCorner.Parent = LoginBtn
+
+-- ==================== 2. MAIN HUB UI (លាក់ទុកមុនពេល Login) ====================
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 280, 0, 340)
-MainFrame.Position = UDim2.new(0.15, 0, 0.15, 0)
-MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.Size = UDim2.new(0, 480, 0, 310)
+MainFrame.Position = UDim2.new(0.5, -240, 0.5, -155)
+MainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
 MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
 MainFrame.Draggable = true
+MainFrame.Visible = false
 MainFrame.Parent = ScreenGui
 
--- ធ្វើឱ្យគែមស៊ុមមូល (UICorner)
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 12)
-UICorner.Parent = MainFrame
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
 
--- Header Title
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 45)
-Title.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-Title.BorderSizePixel = 0
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 15
-Title.Font = Enum.Font.GothamBold
-Title.Text = "⚡ STEAL AN EGG - FIX MOD"
-Title.Parent = MainFrame
+-- Top Bar
+local TopBar = Instance.new("Frame")
+TopBar.Size = UDim2.new(1, 0, 0, 35)
+TopBar.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+TopBar.BorderSizePixel = 0
+TopBar.Parent = MainFrame
 
-local TitleCorner = Instance.new("UICorner")
-TitleCorner.CornerRadius = UDim.new(0, 12)
-TitleCorner.Parent = Title
+local TopCorner = Instance.new("UICorner")
+TopCorner.CornerRadius = UDim.new(0, 10)
+TopCorner.Parent = TopBar
 
--- មុខងារបង្កើតปุ่มແບບ Modern
-local function createButton(posY, text, color)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0.88, 0, 0, 45)
-    btn.Position = UDim2.new(0.06, 0, 0, posY)
-    btn.BackgroundColor3 = color
-    btn.BorderSizePixel = 0
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.TextSize = 13
-    btn.Font = Enum.Font.GothamSemibold
-    btn.Text = text
-    btn.Parent = MainFrame
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Size = UDim2.new(0, 300, 1, 0)
+TitleLabel.Position = UDim2.new(0, 12, 0, 0)
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleLabel.TextSize = 13
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.Text = "⚡ AIZEN HUB - STEAL AN EGG"
+TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+TitleLabel.Parent = TopBar
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 8)
-    corner.Parent = btn
-    return btn
+-- Content Area
+local ContentArea = Instance.new("ScrollingFrame")
+ContentArea.Size = UDim2.new(1, -20, 1, -45)
+ContentArea.Position = UDim2.new(0, 10, 0, 40)
+ContentArea.BackgroundTransparency = 1
+ContentArea.BorderSizePixel = 0
+ContentArea.CanvasSize = UDim2.new(0, 0, 0, 350)
+ContentArea.Parent = MainFrame
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 8)
+UIListLayout.Parent = ContentArea
+
+-- មុខងារបង្កើត Toggle Switch
+local function createToggle(name, defaultState, callback)
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Size = UDim2.new(1, 0, 0, 40)
+    ToggleFrame.BackgroundColor3 = Color3.fromRGB(28, 28, 38)
+    ToggleFrame.BorderSizePixel = 0
+    ToggleFrame.Parent = ContentArea
+
+    local TCorner = Instance.new("UICorner")
+    TCorner.CornerRadius = UDim.new(0, 6)
+    TCorner.Parent = ToggleFrame
+
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(0, 300, 1, 0)
+    Label.Position = UDim2.new(0, 12, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.TextColor3 = Color3.fromRGB(220, 220, 220)
+    Label.TextSize = 12
+    Label.Font = Enum.Font.GothamSemibold
+    Label.Text = name
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = ToggleFrame
+
+    local SwitchBg = Instance.new("TextButton")
+    SwitchBg.Size = UDim2.new(0, 44, 0, 22)
+    SwitchBg.Position = UDim2.new(1, -54, 0.5, -11)
+    SwitchBg.BackgroundColor3 = defaultState and Color3.fromRGB(0, 122, 255) or Color3.fromRGB(60, 60, 75)
+    SwitchBg.Text = ""
+    SwitchBg.Parent = ToggleFrame
+
+    local SCorner = Instance.new("UICorner")
+    SCorner.CornerRadius = UDim.new(1, 0)
+    SCorner.Parent = SwitchBg
+
+    local Circle = Instance.new("Frame")
+    Circle.Size = UDim2.new(0, 18, 0, 18)
+    Circle.Position = defaultState and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9)
+    Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Circle.Parent = SwitchBg
+
+    local CCircle = Instance.new("UICorner")
+    CCircle.CornerRadius = UDim.new(1, 0)
+    CCircle.Parent = Circle
+
+    local state = defaultState
+    SwitchBg.MouseButton1Click:Connect(function()
+        state = not state
+        SwitchBg.BackgroundColor3 = state and Color3.fromRGB(0, 122, 255) or Color3.fromRGB(60, 60, 75)
+        Circle:TweenPosition(state and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.15, true)
+        callback(state)
+    end)
 end
 
--- 1. មុខងារ Speed (កាត់បន្ថយមកត្រឹម 300 เพื่อការពារការเด้ង Error ក្នុងហ្គេម)
-local SpeedBtn = createButton(65, "🚀 ល្បឿនលឿន (Speed 300)", Color3.fromRGB(0, 122, 255))
-SpeedBtn.MouseButton1Click:Connect(function()
-    local char = Player.Character
-    if char and char:FindFirstChildOfClass("Humanoid") then
-        char:FindFirstChildOfClass("Humanoid").WalkSpeed = 300
+-- Login Verification Event
+LoginBtn.MouseButton1Click:Connect(function()
+    if UserBox.Text == "AIZEN" and PassBox.Text == "12345" then
+        LoginFrame.Visible = false
+        MainFrame.Visible = true
+    else
+        LoginBtn.Text = "WRONG PASSWORD!"
+        task.wait(1)
+        LoginBtn.Text = "LOGIN"
     end
 end)
 
--- 2. មុខងារ Fly (Fixed Vector Force)
-local FlyBtn = createButton(125, "🦅 បើកមុខងារហើរ (Fly)", Color3.fromRGB(255, 149, 0))
-local flying = false
-FlyBtn.MouseButton1Click:Connect(function()
-    flying = not flying
+-- 1. Auto Steal / Auto Egg Toggle
+createToggle("🥚 Auto Steal / Auto Egg", false, function(enabled)
+    _G.AutoEgg = enabled
+    task.spawn(function()
+        while _G.AutoEgg do
+            pcall(function()
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("TouchInterest") and v.Parent then
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 0)
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 1)
+                    end
+                end
+            end)
+            task.wait(0.3)
+        end
+    end)
+end)
+
+-- 2. Speed Boost Toggle (WalkSpeed 300)
+createToggle("🚀 Speed Boost (Fast Run)", false, function(enabled)
+    local hum = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+    if hum then
+        hum.WalkSpeed = enabled and 300 or 16
+    end
+end)
+
+-- 3. Fly Mode Toggle
+createToggle("🦅 Fly Mode (ហើរលើអាកាស)", false, function(enabled)
     local char = Player.Character
     if not char then return end
     local hrp = char:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
     
-    if flying then
-        FlyBtn.Text = "🔒 បិទមុខងារហើរ (Fly)"
+    if enabled then
         pcall(function()
             local bv = Instance.new("BodyVelocity")
-            bv.Name = "FlyVelocity"
+            bv.Name = "AizenFlyVelocity"
             bv.Velocity = Vector3.new(0, 0, 0)
             bv.MaxForce = Vector3.new(90000, 90000, 90000)
             bv.Parent = hrp
         end)
     else
-        FlyBtn.Text = "🦅 បើកមុខងារហើរ (Fly)"
-        if hrp:FindFirstChild("FlyVelocity") then
-            hrp.FlyVelocity:Destroy()
+        if hrp:FindFirstChild("AizenFlyVelocity") then
+            hrp.AizenFlyVelocity:Destroy()
         end
     end
 end)
 
--- 3. មុខងារ Auto Egg
-local AutoEggBtn = createButton(185, "🥚 ប្រមូលស៊ុតស្វ័យប្រវត្តិ (Auto Egg)", Color3.fromRGB(52, 199, 89))
-local autoEggActive = false
-AutoEggBtn.MouseButton1Click:Connect(function()
-    autoEggActive = not autoEggActive
-    if autoEggActive then
-        AutoEggBtn.Text = "🛑 បិទ Auto Egg"
-        task.spawn(function()
-            while autoEggActive do
-                pcall(function()
-                    for _, v in pairs(workspace:GetDescendants()) do
-                        if v:IsA("TouchInterest") and v.Parent then
-                            firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 0)
-                            firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 1)
-                        end
-                    end
-                end)
-                task.wait(0.3)
-            end
-        end)
-    else
-        AutoEggBtn.Text = "🥚 ប្រមូលស៊ុតស្វ័យប្រវត្តិ (Auto Egg)"
-    end
+-- 4. Anti-Drop Egg Protection
+createToggle("🛡️ Anti-Drop Egg Protection", true, function(enabled)
+    print("AIZEN Anti-Drop Status: " .. tostring(enabled))
 end)
