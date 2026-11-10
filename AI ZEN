@@ -1,154 +1,111 @@
--- ====================================================
--- Script Loader Hub - AIZEN Hub (Steel Blue & Silver Theme)
--- ====================================================
-
-local CoreGui = game:GetService("CoreGui")
+-- Steal an Egg - Modern UI (Khmer) - Speed Max
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local Player = Players.LocalPlayer
+local CoreGui = game:GetService("CoreGui")
 
--- 1. สร้าง UI Login & Custom Hub Theme (Password: AIZEN)
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "AizenHubLoaderGUI"
-ScreenGui.Parent = CoreGui
-ScreenGui.ResetOnSpawn = false
-
-local LoginFrame = Instance.new("Frame")
-LoginFrame.Name = "LoginFrame"
-LoginFrame.Parent = ScreenGui
-LoginFrame.BackgroundColor3 = Color3.fromRGB(15, 20, 30) -- ពណ៌ខៀវងងឹតស៊ីគ្នាជាមួយ Logo
-LoginFrame.BorderSizePixel = 0
-LoginFrame.Position = UDim2.new(0.5, -170, 0.5, -140)
-LoginFrame.Size = UDim2.new(0, 340, 0, 280)
-LoginFrame.Active = true
-LoginFrame.Draggable = true
-
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 12)
-UICorner.Parent = LoginFrame
-
--- ស៊ុមពណ៌ខៀវប្រាក់ (Steel Blue Stroke)
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Parent = LoginFrame
-UIStroke.Color = Color3.fromRGB(80, 160, 210)
-UIStroke.Thickness = 2
-
--- ដាក់ចំណងជើង Hub (AIZEN) ជំនួស Chilli Hub ជាមួយពណ៌ខៀវស្ទីលឡូហ្គោ
-local Title = Instance.new("TextLabel")
-Title.Parent = LoginFrame
-Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0, 0, 0, 15)
-Title.Size = UDim2.new(1, 0, 0, 40)
-Title.Font = Enum.Font.GothamBold
-Title.Text = "⚡ AIZEN HUB ⚡"
-Title.TextColor3 = Color3.fromRGB(100, 200, 255) -- ពណ៌ខៀវស្រស់ស្អាតដូច Logo
-Title.TextSize = 22
-
--- Subtitle ភាសាខ្មែរ
-local SubTitle = Instance.new("TextLabel")
-SubTitle.Parent = LoginFrame
-SubTitle.BackgroundTransparency = 1
-SubTitle.Position = UDim2.new(0, 0, 0, 55)
-SubTitle.Size = UDim2.new(1, 0, 0, 25)
-SubTitle.Font = Enum.Font.Gotham
-SubTitle.Text = "🔐 សូមបញ្ចូលពាក្យសម្ងាត់ (Password)"
-SubTitle.TextColor3 = Color3.fromRGB(200, 200, 200)
-SubTitle.TextSize = 13
-
-local TextBox = Instance.new("TextBox")
-TextBox.Parent = LoginFrame
-TextBox.BackgroundColor3 = Color3.fromRGB(25, 35, 50)
-TextBox.BorderSizePixel = 0
-TextBox.Position = UDim2.new(0.1, 0, 0.38, 0)
-TextBox.Size = UDim2.new(0.8, 0, 0, 45)
-TextBox.Font = Enum.Font.Gotham
-TextBox.PlaceholderText = "បញ្ចូល Password..."
-TextBox.Text = ""
-TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextBox.TextSize = 14
-
-local TextBoxCorner = Instance.new("UICorner")
-TextBoxCorner.CornerRadius = UDim.new(0, 8)
-TextBoxCorner.Parent = TextBox
-
-local TextBoxStroke = Instance.new("UIStroke")
-TextBoxStroke.Parent = TextBox
-TextBoxStroke.Color = Color3.fromRGB(50, 110, 160)
-TextBoxStroke.Thickness = 1
-
-local LoginBtn = Instance.new("TextButton")
-LoginBtn.Parent = LoginFrame
-LoginBtn.BackgroundColor3 = Color3.fromRGB(30, 130, 200) -- ពណ៌ខៀវដែក (Steel Blue)
-LoginBtn.BorderSizePixel = 0
-LoginBtn.Position = UDim2.new(0.1, 0, 0.68, 0)
-LoginBtn.Size = UDim2.new(0.8, 0, 0, 48)
-LoginBtn.Font = Enum.Font.GothamBold
-LoginBtn.Text = "ចូលប្រើប្រាស់ (Login)"
-LoginBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-LoginBtn.TextSize = 15
-
-local LoginBtnCorner = Instance.new("UICorner")
-LoginBtnCorner.CornerRadius = UDim.new(0, 8)
-LoginBtnCorner.Parent = LoginBtn
-
--- 2. ฟังก์ชันรัน Script หลัก (หลังใส่รหัสถูก)
-local function startMainScript()
-    ScreenGui:Destroy() -- បិទផ្ទាំង Login ចោល
-
-    local SAE = "https://api.luarmor.net/files/v4/loaders/d70c93187f4801ff5b907707597a24be.lua"
-    local RAP = "https://api.luarmor.net/files/v4/loaders/0dbcaa9e992477523d38a8284d7dbdef.lua"
-    local JFA = "https://raw.githubusercontent.com/tienkhanh1/Chilli-Hub-Script/refs/heads/main/JumpForAnimals"
-    local SAB = "https://raw.githubusercontent.com/tienkhanh1/spicy/refs/heads/main/Steal-a-Brainrot"
-    local MM2 = "https://api.luarmor.net/files/v4/loaders/2bf348894416e1d3deee40be756d42ff.lua"
-    local BROOK = "https://api.luarmor.net/files/v4/loaders/89190a03fd337349cef140d576357ba3.lua"
-
-    local byGameId = {
-        [10563114921] = SAE,
-        [10035204815] = RAP,
-        [10690360998] = JFA,
-        [7709344486] = SAB,
-        [66654135] = MM2,
-        [1686885941] = BROOK,
-    }
-
-    local byPlaceId = {
-        [107778070777162] = SAE,
-        [124216119978534] = RAP,
-        [126870639873289] = JFA,
-        [109983668079237] = SAB,
-        [142823291] = MM2,
-        [4924922222] = BROOK,
-    }
-
-    local gameId = game.GameId
-    while gameId == 0 and game.PlaceId == 0 do
-        task.wait()
-        gameId = game.GameId
-    end
-
-    local url = byGameId[gameId] or byPlaceId[game.PlaceId]
-    if not url then
-        return
-    end
-
-    for _ = 1, 3 do
-        local ok, source = pcall(game.HttpGet, game, url)
-        if ok and type(source) == "string" and source ~= "" then
-            local chunk = loadstring(source)
-            if chunk then
-                chunk()
-            end
-            return
-        end
-        task.wait(0.5)
-    end
+-- លុប UI ចាស់ចោលបើមាន
+if CoreGui:FindFirstChild("ModernStealAnEggGUI") then
+    CoreGui.ModernStealAnEggGUI:Destroy()
 end
 
--- 3. ตรวจสอบรหัสผ่าน
-LoginBtn.MouseButton1Click:Connect(function()
-    if TextBox.Text == "AIZEN" then
-        startMainScript()
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ModernStealAnEggGUI"
+ScreenGui.Parent = CoreGui
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 280, 0, 340)
+MainFrame.Position = UDim2.new(0.15, 0, 0.15, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+-- ធ្វើឱ្យគែមស៊ុមមូល (UICorner)
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
+
+-- Header Title
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 45)
+Title.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+Title.BorderSizePixel = 0
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 15
+Title.Font = Enum.Font.GothamBold
+Title.Text = "⚡ STEAL AN EGG - ម៉ូដខ្មែរ"
+Title.Parent = MainFrame
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 12)
+TitleCorner.Parent = Title
+
+-- មុខងារបង្កើតปุ่มແບບ Modern
+local function createButton(posY, text, color)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0.88, 0, 0, 45)
+    btn.Position = UDim2.new(0.06, 0, 0, posY)
+    btn.BackgroundColor3 = color
+    btn.BorderSizePixel = 0
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.TextSize: 13
+    btn.Font = Enum.Font.GothamSemibold
+    btn.Text = text
+    btn.Parent = MainFrame
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = btn
+    return btn
+end
+
+-- 1. ปุ่ม Speed x9999999999999
+local SpeedBtn = createButton(65, "🚀 ល្បឿនលឿន (Speed x9999999999999)", Color3.fromRGB(0, 122, 255))
+SpeedBtn.MouseButton1Click:Connect(function()
+    local hum = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+    if hum then hum.WalkSpeed = 9999999999999 end
+end)
+
+-- 2. ปุ่ม Fly
+local FlyBtn = createButton(125, "🦅 បើកមុខងារហើរ (Fly)", Color3.fromRGB(255, 149, 0))
+local flying = false
+FlyBtn.MouseButton1Click:Connect(function()
+    flying = not flying
+    local char = Player.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local bv = hrp:FindFirstChild("BodyVelocity") or Instance.new("BodyVelocity", hrp)
+    
+    if flying then
+        FlyBtn.Text = "🔒 បិទមុខងារហើរ (Fly)"
+        bv.Velocity = Vector3.new(0, 50, 0)
+        bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
     else
-        TextBox.Text = ""
-        TextBox.PlaceholderText = "❌ ខុស Password! សូមព្យាយាមម្ដងទៀត"
+        FlyBtn.Text = "🦅 បើកមុខងារហើរ (Fly)"
+        bv:Destroy()
+    end
+end)
+
+-- 3. ปุ่ม Auto Egg
+local AutoEggBtn = createButton(185, "🥚 ប្រមូលស៊ុតស្វ័យប្រវត្តិ (Auto Egg)", Color3.fromRGB(52, 199, 89))
+local autoEggActive = false
+AutoEggBtn.MouseButton1Click:Connect(function()
+    autoEggActive = not autoEggActive
+    if autoEggActive then
+        AutoEggBtn.Text = "🛑 បិទ Auto Egg"
+        task.spawn(function()
+            while autoEggActive do
+                for _, v in pairs(workspace:GetDescendants()) do
+                    if v:IsA("TouchInterest") and v.Parent then
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 0)
+                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 1)
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    else
+        AutoEggBtn.Text = "🥚 ប្រមូលស៊ុតស្វ័យប្រវត្តិ (Auto Egg)"
     end
 end)
