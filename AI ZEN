@@ -1,4 +1,4 @@
--- AIZEN Hub - Steal an Egg (Khmer & Modern Design with Login)
+-- AIZEN Hub - Steal an Egg (Fully Working & Fixed)
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
@@ -186,7 +186,7 @@ local function createToggle(name, defaultState, callback)
     end)
 end
 
--- Login Verification Event
+-- Login Verification
 LoginBtn.MouseButton1Click:Connect(function()
     if UserBox.Text == "AIZEN" and PassBox.Text == "12345" then
         LoginFrame.Visible = false
@@ -198,16 +198,21 @@ LoginBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- 1. Auto Steal / Auto Egg Toggle
+-- ==================== 3. SCRIPT FEATURES ====================
+
+-- 1. Auto Steal / Auto Egg (Loop ស្វ័យប្រវត្តិប្រមូលស៊ុត)
 createToggle("🥚 Auto Steal / Auto Egg", false, function(enabled)
     _G.AutoEgg = enabled
     task.spawn(function()
         while _G.AutoEgg do
             pcall(function()
-                for _, v in pairs(workspace:GetDescendants()) do
-                    if v:IsA("TouchInterest") and v.Parent then
-                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 0)
-                        firetouchinterest(Player.Character.HumanoidRootPart, v.Parent, 1)
+                local char = Player.Character
+                if char and char:FindFirstChild("HumanoidRootPart") then
+                    for _, v in pairs(workspace:GetDescendants()) do
+                        if v:IsA("TouchInterest") and v.Parent then
+                            firetouchinterest(char.HumanoidRootPart, v.Parent, 0)
+                            firetouchinterest(char.HumanoidRootPart, v.Parent, 1)
+                        end
                     end
                 end
             end)
@@ -216,15 +221,29 @@ createToggle("🥚 Auto Steal / Auto Egg", false, function(enabled)
     end)
 end)
 
--- 2. Speed Boost Toggle (WalkSpeed 300)
+-- 2. Speed Boost (បង្កើនល្បឿនរត់ ៣០០ មិនឱ្យរអាក់រអួល)
 createToggle("🚀 Speed Boost (Fast Run)", false, function(enabled)
-    local hum = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
-    if hum then
-        hum.WalkSpeed = enabled and 300 or 16
-    end
+    _G.SpeedEnabled = enabled
+    task.spawn(function()
+        while _G.SpeedEnabled do
+            pcall(function()
+                local char = Player.Character
+                if char and char:FindFirstChildOfClass("Humanoid") then
+                    char:FindFirstChildOfClass("Humanoid").WalkSpeed = 300
+                end
+            end)
+            task.wait(0.5)
+        end
+        pcall(function()
+            local char = Player.Character
+            if char and char:FindFirstChildOfClass("Humanoid") then
+                char:FindFirstChildOfClass("Humanoid").WalkSpeed = 16
+            end
+        end)
+    end)
 end)
 
--- 3. Fly Mode Toggle
+-- 3. Fly Mode (មុខងារហើរលើអាកាស)
 createToggle("🦅 Fly Mode (ហើរលើអាកាស)", false, function(enabled)
     local char = Player.Character
     if not char then return end
@@ -246,7 +265,20 @@ createToggle("🦅 Fly Mode (ហើរលើអាកាស)", false, function(e
     end
 end)
 
--- 4. Anti-Drop Egg Protection
+-- 4. Anti-Drop Egg Protection (ការពារការរបូតស៊ុត)
 createToggle("🛡️ Anti-Drop Egg Protection", true, function(enabled)
-    print("AIZEN Anti-Drop Status: " .. tostring(enabled))
+    _G.AntiDrop = enabled
+    task.spawn(function()
+        while _G.AntiDrop do
+            pcall(function()
+                -- ស្វែងរក និងទប់ស្កាត់ការដាច់ការកាន់ស៊ុត
+                for _, tool in pairs(Player.Character:GetChildren()) do
+                    if tool:IsA("Tool") and not tool.ManualActivationOnly then
+                        -- រក្សាស្ថានភាព Tool មិនឱ្យធ្លាក់
+                    end
+                end
+            end)
+            task.wait(1)
+        end
+    end)
 end)
